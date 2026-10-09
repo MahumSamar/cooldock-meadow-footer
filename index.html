@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Cooldock — Meadow Footer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --paper: #f1f1ee;
+        --ink: #0c0c0c;
+        --body: #6f6f6c;
+        --muted: #9c9c98;
+        --wordmark: #efefeb;
+        --font: "Inter", system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html {
+        -webkit-text-size-adjust: 100%;
+      }
+
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: var(--font);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      /* ---------- Footer shell ---------- */
+
+      .footer {
+        /* Sizing unit: the design is drawn on a 1440 x 672 canvas. The unit
+           follows the width, but backs off on short viewports so the content
+           never collides with the wordmark. */
+        --u: min(100vw / 1440, 100vh / 672);
+        --u: min(100vw / 1440, 100svh / 672);
+        position: relative;
+        height: 100vh;
+        height: 100svh;
+        background: var(--paper);
+        overflow: hidden;
+        isolation: isolate;
+      }
+
+      /* ---------- Animated background video ---------- */
+
+      .footer__stage {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+      }
+
+      .footer__video {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: 50% 100%;
+        transform: translateY(9%);
+      }
+
+      /* Pale haze over the sky so the copy stays readable. */
+      .footer__stage::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to bottom,
+          var(--paper) 0%,
+          rgb(241 241 238 / 0.96) 26%,
+          rgb(241 241 238 / 0.72) 44%,
+          rgb(241 241 238 / 0) 70%
+        );
+      }
+
+      /* ---------- Giant wordmark ---------- */
+
+      .footer__wordmark {
+        position: absolute;
+        left: 50%;
+        bottom: calc(-2 * var(--u));
+        z-index: 1;
+        margin: 0;
+        transform: translateX(-50%);
+        color: var(--wordmark);
+        font-size: calc(302 * var(--u));
+        font-weight: 600;
+        line-height: 0.74;
+        letter-spacing: -0.045em;
+        white-space: nowrap;
+        pointer-events: none;
+        user-select: none;
+      }
+
+      /* Fog rising over the bottom of the wordmark. */
+      .footer__fog {
+        position: absolute;
+        inset: auto 0 0;
+        z-index: 2;
+        height: 17%;
+        background: linear-gradient(
+          to top,
+          var(--paper) 0%,
+          rgb(241 241 238 / 0.6) 30%,
+          rgb(241 241 238 / 0) 100%
+        );
+        pointer-events: none;
+      }
+
+      /* ---------- Content ---------- */
+
+      .footer__content {
+        position: relative;
+        z-index: 3;
+        display: grid;
+        grid-template-columns:
+          calc(440 * var(--u)) calc(240 * var(--u)) calc(240 * var(--u))
+          1fr;
+        align-items: start;
+        width: calc(1440 * var(--u));
+        margin: 0 auto;
+        padding: calc(86 * var(--u)) calc(100 * var(--u)) 0 calc(160 * var(--u));
+      }
+
+      /* Brand block */
+
+      .brand__logo {
+        display: inline-flex;
+        align-items: center;
+        gap: calc(10 * var(--u));
+        font-size: calc(17 * var(--u));
+        font-weight: 500;
+        letter-spacing: -0.02em;
+      }
+
+      .brand__mark {
+        position: relative;
+        flex: none;
+        width: calc(30 * var(--u));
+        height: calc(30 * var(--u));
+        border-radius: calc(8 * var(--u));
+        background: linear-gradient(to bottom, #2b2b2b, #0a0a0a 55%);
+        box-shadow: 0 calc(1 * var(--u)) calc(2 * var(--u)) rgb(0 0 0 / 0.25);
+      }
+
+      .brand__mark::after {
+        content: "";
+        position: absolute;
+        left: 13%;
+        right: 13%;
+        bottom: 14%;
+        height: 19%;
+        border-radius: 999px;
+        background: #fff;
+      }
+
+      .brand__title {
+        margin: calc(19 * var(--u)) 0 0;
+        font-size: calc(20 * var(--u));
+        font-weight: 600;
+        line-height: 1.2;
+        letter-spacing: -0.045em;
+      }
+
+      .brand__text {
+        max-width: calc(412 * var(--u));
+        margin: calc(18 * var(--u)) 0 0;
+        color: var(--body);
+        font-size: calc(13.7 * var(--u));
+        line-height: 1.43;
+        letter-spacing: -0.012em;
+      }
+
+      .brand__cta {
+        display: inline-flex;
+        align-items: center;
+        gap: calc(6 * var(--u));
+        height: calc(32.5 * var(--u));
+        margin-top: calc(20 * var(--u));
+        padding: 0 calc(16 * var(--u)) 0 calc(15 * var(--u));
+        border-radius: calc(7 * var(--u));
+        background: #000;
+        color: #fff;
+        font-size: calc(11.8 * var(--u));
+        font-weight: 500;
+        letter-spacing: -0.01em;
+        transition: background-color 0.2s ease, transform 0.2s ease;
+      }
+
+      .brand__cta svg {
+        width: calc(13 * var(--u));
+        height: calc(13 * var(--u));
+        margin-top: calc(-1.5 * var(--u));
+      }
+
+      .brand__cta:hover {
+        background: #262626;
+        transform: translateY(-1px);
+      }
+
+      .brand__copy {
+        margin: calc(23 * var(--u)) 0 0;
+        color: var(--muted);
+        font-size: calc(12.2 * var(--u));
+        letter-spacing: 0.01em;
+      }
+
+      .brand__by {
+        display: flex;
+        align-items: center;
+        gap: calc(5 * var(--u));
+        margin: calc(21 * var(--u)) 0 0;
+        font-size: calc(11.8 * var(--u));
+        font-weight: 500;
+        letter-spacing: -0.01em;
+      }
+
+      .brand__heart {
+        font-size: 0.95em;
+      }
+
+      .brand__author {
+        display: inline-flex;
+        align-items: center;
+        gap: calc(6 * var(--u));
+        margin-left: calc(5 * var(--u));
+      }
+
+      .brand__avatar {
+        flex: none;
+        width: calc(23 * var(--u));
+        height: calc(23 * var(--u));
+        border-radius: 50%;
+        background: #e3e3e0;
+        overflow: hidden;
+      }
+
+      .brand__avatar svg {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+
+      /* Link columns */
+
+      .col__title {
+        margin: 0;
+        font-size: calc(16 * var(--u));
+        font-weight: 600;
+        line-height: 1;
+        letter-spacing: -0.045em;
+      }
+
+      .col__list {
+        display: grid;
+        gap: calc(20.5 * var(--u));
+        margin-top: calc(24 * var(--u));
+        font-size: calc(13.7 * var(--u));
+        line-height: 1.24;
+        letter-spacing: 0.022em;
+        color: #161616;
+      }
+
+      .col--menu .col__list {
+        gap: calc(15 * var(--u));
+        margin-top: calc(21 * var(--u));
+        font-weight: 500;
+        letter-spacing: -0.025em;
+        color: var(--ink);
+      }
+
+      .col__list a {
+        transition: opacity 0.2s ease;
+      }
+
+      .col__list a:hover {
+        opacity: 0.55;
+      }
+
+      /* ---------- Tablet ---------- */
+
+      @media (max-width: 1023px) and (min-width: 768px) {
+        .footer {
+          --u: min(100vw / 1040, 100svh / 672);
+        }
+
+        .footer__content {
+          grid-template-columns:
+            calc(400 * var(--u)) calc(190 * var(--u)) calc(210 * var(--u))
+            1fr;
+          width: calc(1040 * var(--u));
+          padding: calc(64 * var(--u)) calc(40 * var(--u)) 0;
+        }
+
+        .brand__text {
+          max-width: calc(350 * var(--u));
+        }
+
+        .footer__wordmark {
+          font-size: calc(222 * var(--u));
+          bottom: calc(10 * var(--u));
+        }
+      }
+
+      /* ---------- Mobile ---------- */
+
+      @media (max-width: 767px) {
+        .footer {
+          --u: 1px;
+          display: flex;
+          flex-direction: column;
+          height: auto;
+          min-height: 100vh;
+          min-height: 100svh;
+        }
+
+        .footer__stage::after {
+          background: linear-gradient(
+            to bottom,
+            var(--paper) 0%,
+            rgb(241 241 238 / 0.95) 45%,
+            rgb(241 241 238 / 0.72) 62%,
+            rgb(241 241 238 / 0) 84%
+          );
+        }
+
+        .footer__content {
+          grid-template-columns: auto auto auto;
+          justify-content: space-between;
+          column-gap: 12px;
+          row-gap: 36px;
+          width: 100%;
+          padding: 40px 20px 0;
+          /* Leave the meadow and the wordmark visible below the links. */
+          margin-bottom: max(34vw, 150px);
+        }
+
+        .brand {
+          grid-column: 1 / -1;
+        }
+
+        .brand__title {
+          font-size: 21px;
+        }
+
+        .brand__text {
+          max-width: 34em;
+          font-size: 14px;
+        }
+
+        .brand__cta {
+          height: 38px;
+          padding: 0 18px 0 16px;
+          border-radius: 8px;
+          font-size: 13px;
+        }
+
+        .brand__cta svg {
+          width: 14px;
+          height: 14px;
+        }
+
+        .brand__copy,
+        .brand__by {
+          font-size: 12.5px;
+        }
+
+        .col__title {
+          font-size: 15px;
+        }
+
+        .col__list,
+        .col--menu .col__list {
+          gap: 14px;
+          margin-top: 20px;
+          font-size: 13px;
+        }
+
+        .col__list {
+          letter-spacing: 0;
+          white-space: nowrap;
+        }
+
+        .footer__wordmark {
+          bottom: 5vw;
+          font-size: 20.9vw;
+        }
+
+        .footer__fog {
+          height: 7%;
+        }
+      }
+
+      @media (max-width: 359px) {
+        .footer__content {
+          grid-template-columns: 1fr 1fr;
+          justify-content: stretch;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .brand__cta,
+        .col__list a {
+          transition: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <footer class="footer">
+      <div class="footer__stage" aria-hidden="true">
+        <video
+          class="footer__video"
+          src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20261008_133050_e821f909-669e-449b-9ed5-50737ac74347.mp4"
+          poster="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20261008_132953_63ae6021-8b5b-491c-836c-664a97d9ca2a.png"
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="auto"
+        ></video>
+      </div>
+
+      <p class="footer__wordmark" aria-hidden="true">Cooldock</p>
+      <div class="footer__fog" aria-hidden="true"></div>
+
+      <div class="footer__content">
+        <div class="brand">
+          <a class="brand__logo" href="#" aria-label="Cooldock home">
+            <span class="brand__mark"></span>
+            Cooldock
+          </a>
+          <h2 class="brand__title">Your smart second Dock</h2>
+          <p class="brand__text">
+            Cooldock brings music, todos, events, weather, search, stats, quick
+            actions, and more useful widgets into one beautiful live dock beside
+            your original Mac Dock.
+          </p>
+          <a class="brand__cta" href="#">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path
+                d="M17.05 12.54c-.03-2.75 2.25-4.07 2.35-4.14-1.28-1.87-3.27-2.13-3.98-2.16-1.69-.17-3.3 1-4.16 1-.86 0-2.18-.97-3.59-.95-1.85.03-3.55 1.07-4.5 2.72-1.92 3.33-.49 8.25 1.38 10.95.91 1.32 2 2.8 3.43 2.75 1.38-.06 1.9-.89 3.56-.89 1.66 0 2.13.89 3.59.86 1.48-.03 2.42-1.34 3.33-2.67 1.05-1.53 1.48-3.02 1.5-3.1-.03-.01-2.88-1.1-2.91-4.37ZM14.31 4.46c.76-.92 1.27-2.2 1.13-3.46-1.09.04-2.41.73-3.19 1.64-.7.81-1.31 2.1-1.15 3.34 1.22.09 2.46-.62 3.21-1.52Z"
+              />
+            </svg>
+            Download for macOS
+          </a>
+          <p class="brand__copy">© 2026 Dock.Cool - All rights reserved</p>
+          <p class="brand__by">
+            Built with <span class="brand__heart" aria-label="love">💙</span> by
+            <span class="brand__author">
+              <span class="brand__avatar" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <rect width="24" height="24" fill="#e6e6e3" />
+                  <circle cx="12" cy="9.2" r="4.4" fill="#1b1b1b" />
+                  <path d="M3 25c0-6 4-9.4 9-9.4S21 19 21 25Z" fill="#1b1b1b" />
+                </svg>
+              </span>
+              Solt Wagner
+            </span>
+          </p>
+        </div>
+
+        <nav class="col col--menu" aria-label="Menu">
+          <h3 class="col__title">Menu</h3>
+          <ul class="col__list">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Features</a></li>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">Pricing</a></li>
+            <li><a href="#">Updates</a></li>
+          </ul>
+        </nav>
+
+        <nav class="col" aria-label="Navigation">
+          <h3 class="col__title">Navigation</h3>
+          <ul class="col__list">
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">Roadmap</a></li>
+            <li><a href="#">Privacy policy</a></li>
+            <li><a href="#">Terms of service</a></li>
+            <li><a href="#">Customer portal</a></li>
+          </ul>
+        </nav>
+
+        <nav class="col" aria-label="More products">
+          <h3 class="col__title">More products</h3>
+          <ul class="col__list">
+            <li><a href="#">Supaste.com</a></li>
+            <li><a href="#">Runey.app</a></li>
+            <li><a href="#">Revone.app</a></li>
+            <li><a href="#">Icoon.co</a></li>
+            <li><a href="#">Selected.site</a></li>
+            <li><a href="#">Supaframe.io</a></li>
+            <li><a href="#">Frameblox.com</a></li>
+          </ul>
+        </nav>
+      </div>
+    </footer>
+  </body>
+</html>
